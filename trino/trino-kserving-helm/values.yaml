@@ -4,7 +4,7 @@
   # https://knative.dev/docs/admin/serving/deployment/  
 image:
   repository: kind.local/trino-356
-  tag: 356-jq-v2
+  tag: 356-jq
   pullPolicy: IfNotPresent
   securityContext:
     runAsUser: 1000

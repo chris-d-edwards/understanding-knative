@@ -19,7 +19,7 @@ Created a custom images for add jq and a custom jar for descriminate if possible
 ```sh
 cd image
 docker build -t kind.local/trino-356:356-jq .
-kind load docker-image kind.local/trino-356:356-jq-v1 
+kind load docker-image kind.local/trino-356:356-jq
 ```
 
 # Testing
