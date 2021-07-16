@@ -1,0 +1,5 @@
+domain: balyfix.ai
+layout: go.kubebuilder.io/v3
+projectName: coordinator-watcher
+repo: coordinator-watcher
+version: 3-alpha
