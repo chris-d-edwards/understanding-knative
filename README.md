@@ -1,6 +1,6 @@
 # Understanding-playground-knative
 
-Simple repo to understand knative serving. Created this repo to investigate on a possible bug on knative readiness  handle exec by probes. with http probes is works 
+Simple repo to understand knative serving. Created this repo to investigate on a possible bug on knative readiness  handle exec by probes. with http probes it works for me 
 
 
 # Prepare env 
