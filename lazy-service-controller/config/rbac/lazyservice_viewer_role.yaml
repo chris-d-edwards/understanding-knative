@@ -1,0 +1,20 @@
+# permissions for end users to view lazyservices.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: lazyservice-viewer-role
+rules:
+- apiGroups:
+  - deploy.balyfix.ai
+  resources:
+  - lazyservices
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - deploy.balyfix.ai
+  resources:
+  - lazyservices/status
+  verbs:
+  - get

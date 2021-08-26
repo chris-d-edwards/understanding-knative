@@ -1,0 +1,24 @@
+# permissions for end users to edit lazyservices.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: lazyservice-editor-role
+rules:
+- apiGroups:
+  - deploy.balyfix.ai
+  resources:
+  - lazyservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - deploy.balyfix.ai
+  resources:
+  - lazyservices/status
+  verbs:
+  - get

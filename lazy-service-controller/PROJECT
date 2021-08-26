@@ -1,0 +1,11 @@
+domain: balyfix.ai
+layout: go.kubebuilder.io/v3
+projectName: lazy-service-controller
+repo: lazy-service-controller
+resources:
+- api:
+    crdVersion: v1
+  group: deploy
+  kind: Lazyservice
+  version: v1
+version: 3-alpha

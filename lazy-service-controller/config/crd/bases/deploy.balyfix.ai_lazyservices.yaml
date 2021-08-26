@@ -1,0 +1,165 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.3.1-0.20200528125929-5c0c6ae3b64b
+  creationTimestamp: null
+  name: lazyservices.deploy.balyfix.ai
+spec:
+  group: deploy.balyfix.ai
+  names:
+    kind: Lazyservice
+    listKind: LazyserviceList
+    plural: lazyservices
+    singular: lazyservice
+  preserveUnknownFields: false
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: Lazyservice is the Schema for the lazyservices API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: LazyserviceSpec defines the desired state of Lazyservice
+          properties:
+            canaryTrafficPercent:
+              description: CanaryTrafficPercent defines the traffic split percentage
+                between the candidate revision and the last ready revision
+              format: int64
+              type: integer
+            containerConcurrency:
+              description: ContainerConcurrency specifies how many requests can be
+                processed concurrently, this sets the hard limit of the container
+                concurrency(https://knative.dev/docs/serving/autoscaling/concurrency).
+              format: int64
+              type: integer
+            foo:
+              type: string
+            image:
+              type: string
+            maxReplicas:
+              description: Maximum number of replicas for autoscaling.
+              type: integer
+            minReplicas:
+              description: Minimum number of replicas, defaults to 1 but can be set
+                to 0 to enable scale-to-zero.
+              type: integer
+            serviceName:
+              type: string
+            timeout:
+              description: TimeoutSeconds specifies the number of seconds to wait
+                before timing out a request to the component.
+              format: int64
+              type: integer
+          required:
+          - serviceName
+          type: object
+        status:
+          description: LazyserviceStatus defines the observed state of Lazyservice
+          properties:
+            componentStatus:
+              description: ComponentStatusSpec describes the state of the component
+              properties:
+                address:
+                  description: Addressable endpoint for the InferenceService
+                  properties:
+                    url:
+                      type: Any
+                  type: object
+                latestCreatedRevision:
+                  description: Latest revision name that is created
+                  type: string
+                latestReadyRevision:
+                  description: Latest revision name that is in ready state
+                  type: string
+                previousRolledoutRevision:
+                  description: Previous revision name that is rolled out with 100
+                    percent traffic
+                  type: string
+                traffic:
+                  description: Latest revision name that is rolled out with 100 percent
+                    traffic LatestRolledoutRevision string `json:"latestRolledoutRevision,omitempty"`
+                    Traffic holds the configured traffic distribution for latest ready
+                    revision and previous rolled out revision.
+                  items:
+                    description: TrafficTarget holds a single entry of the routing
+                      table for a Route.
+                    properties:
+                      configurationName:
+                        description: ConfigurationName of a configuration to whose
+                          latest revision we will send this portion of traffic. When
+                          the "status.latestReadyRevisionName" of the referenced configuration
+                          changes, we will automatically migrate traffic from the
+                          prior "latest ready" revision to the new one.  This field
+                          is never set in Route's status, only its spec.  This is
+                          mutually exclusive with RevisionName.
+                        type: string
+                      latestRevision:
+                        description: LatestRevision may be optionally provided to
+                          indicate that the latest ready Revision of the Configuration
+                          should be used for this traffic target.  When provided LatestRevision
+                          must be true if RevisionName is empty; it must be false
+                          when RevisionName is non-empty.
+                        type: boolean
+                      percent:
+                        description: 'Percent indicates that percentage based routing
+                          should be used and the value indicates the percent of traffic
+                          that is be routed to this Revision or Configuration. `0`
+                          (zero) mean no traffic, `100` means all traffic. When percentage
+                          based routing is being used the follow rules apply: - the
+                          sum of all percent values must equal 100 - when not specified,
+                          the implied value for `percent` is zero for   that particular
+                          Revision or Configuration'
+                        format: int64
+                        type: integer
+                      revisionName:
+                        description: RevisionName of a specific revision to which
+                          to send this portion of traffic.  This is mutually exclusive
+                          with ConfigurationName.
+                        type: string
+                      tag:
+                        description: Tag is optionally used to expose a dedicated
+                          url for referencing this target exclusively.
+                        type: string
+                      url:
+                        description: URL displays the URL for accessing named traffic
+                          targets. URL is displayed in status, and is disallowed on
+                          spec. URL must contain a scheme (e.g. http://) and a hostname,
+                          but may not contain anything else (e.g. basic auth, url
+                          path, etc.)
+                        type: Any
+                    type: object
+                  type: array
+                url:
+                  description: URL holds the url that will distribute traffic over
+                    the provided traffic targets. It generally has the form http[s]://{route-name}.{route-namespace}.{cluster-level-suffix}
+                  type: Any
+              type: object
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: null
+  storedVersions: null

@@ -1,0 +1,8 @@
+apiVersion: deploy.balyfix.ai/v1
+kind: Lazyservice
+metadata:
+  name: lazyservice-sample
+spec:
+  # Add fields here
+  serviceName: bar
+  image: gcr.io/knative-samples/autoscale-go:0.1
